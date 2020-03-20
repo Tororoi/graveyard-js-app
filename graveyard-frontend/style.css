@@ -1,4 +1,92 @@
 h1 {
-  color: red;
+  color: #eaff00;
+  font-family: 'Courier', serif;
 }
 
+aside {
+  width: 40%;
+  padding-left: .5rem;
+  margin-left: .5rem;
+  float: right;
+  font-style: bold;
+  color: #eaff00;
+  font-family: 'Courier', serif;
+}
+
+aside > p {
+  margin: .5rem;
+}
+
+p {
+  font-family: 'Courier', serif;
+}
+
+body {
+  background-color: rgb(151, 171, 177);
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    }
+    
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+    
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(121, 213, 230);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgb(255, 247, 0);
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+    
+    input:checked + .slider {
+    background-color: rgb(4, 8, 11);
+    }
+    
+    
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: rgb(216, 216, 216);
+    }
+    
+    .flex-container {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      align-items: center;
+      align-content: space-around;
+      }
+      
+      .flex-container > div {
+        background-color: #f1f1f1;
+        width: 75px;
+        margin: 10px;
+        text-align: center;
+        line-height: 75px;
+        font-size: 30px;
+      }
