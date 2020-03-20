@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  speed: 1
+  flowers_needed: 1
+  grave: one
+
+two:
+  name: MyString
+  speed: 1
+  flowers_needed: 1
+  grave: two
