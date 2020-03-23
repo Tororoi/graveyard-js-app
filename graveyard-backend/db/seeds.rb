@@ -17,4 +17,3 @@ Grave.create(name: "Kurt Kobrains", epitaph: "Misplaced own brains, need replace
 Grave.create(name: "Li Wenliang", epitaph: "He tried to warn us.", lifespan: "1985-2020")
 Grave.create(name: "Bill Murray", epitaph: "Local improvisational actor", lifespan: "1950-2021")
 Grave.create(name: "Nick Frost", epitaph: "Non-local improvisational actor", lifespan: "1972-2021")
-Grave.create(name: "Michael Jackson", epitaph: "Turns out he actually did do it. Yuck", lifespan: "1958-2009")
