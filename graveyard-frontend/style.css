@@ -89,7 +89,14 @@ body {
       border: 5px solid rgba(0, 0, 0, 0.8);
       padding: 50px;
       font-size: 30px;
-      text-align: center;
+      text-align: left;
+    }
+
+    .grave_img {
+      position: relative;
+      right: 50px;
+      bottom: 120px;
+
     }
     
     /* .flex-container {
