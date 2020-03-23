@@ -15,7 +15,18 @@ const plots = graveyard.children
 
 // Assets
 
-const openGraveDay = "open_grave.png"
+const openGraveDay = "images/open_grave_day.png"
+const openGraveNight = "images/open_grave_night.png"
+const closedGraveDay = "images/closed_grave_day.png"
+const closedGraveNight = "images/closed_grave_night.png"
+
+const daffodilDay = "images/daffodil_day.png"
+const daffodilNight = "images/daffodil_night.png"
+const tulipDay = "images/tulip_day.png"
+const tulipNight = "images/tulip_night.png"
+const peonyDay = "images/peony_day.png"
+const peonyNight = "images/peony_night.png"
+
 
 // Testing
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -26,7 +37,7 @@ function displayStartingGraves(){
     const randomPlots = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]).slice(0, 3) // 3 random numbers btw 0 and 14
     randomPlots.forEach(index => {
         plots[index].innerHTML = `
-        <img src="open_grave.png" class="grave_img">
+        <img src=${openGraveDay} class="grave_img">
         `
     })
 }
@@ -42,16 +53,31 @@ function shuffleArray(array) { // This is what it takes to generate several rand
 
 //Routes
 const gravesURL = `http://localhost:3000/graves/`
+const corpsesURL = `http://localhost:3000/corpses/`
+const flowersURL = `http://localhost:3000/flowers/`
 
 const testUl = document.createElement('ul')
 const body = document.querySelector('body')
 body.append(testUl)
 
+
+//tester objects
 const newGraveObj = {
     name: "John Doe",
-    epitaph: "Lived as he died, unknown",
-    lifespan: "1805-1892"
-
+    epitaph: "Died as he lived, unknown",
+    lifespan: "1805-1892",
+    open: false //always false for new grave. new graves are made by clicking on an empty plot while cursor is shovel.
+}
+const newCorpseObj = {
+    name: "John Doe",
+    speed: 1,
+    flowers_needed: 2,
+    grave_id: 1
+}
+const newFlowerObj = {
+    name: "Tulip",
+    worth: 2, //name and worth connected, selected from form 
+    grave_id: 1 //grave is chosen by clicking on the grave while cursor is flower
 }
 
 //-------Grave Fetches-------//
@@ -98,6 +124,111 @@ function fetchGraves() {
 //Get one grave
 function fetchGrave(graveId) {
     return fetch(gravesURL+graveId, {
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+
+//--------Corpse Fetches--------//
+//Post Corpse
+function postCorpse(data) {
+    return fetch(corpsesURL, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+
+//Delete Corpse
+function deleteCorpse(corpseId) {
+    fetch(corpsesURL+corpseId, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(corpseId)
+    })
+    .then(res => res.json())
+    .then(console.log)
+  }
+
+//Get all corpses
+function fetchCorpses() {
+    return fetch(corpsesURL, {
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+
+//Get one corpse
+function fetchCorpse(corpseId) {
+    return fetch(corpsesURL+corpseId, {
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+//-------Flower Fetches--------//
+//Post Flower
+function postFlower(data) {
+    return fetch(flowersURL, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+
+//Delete Flower
+function deleteFlower(flowerId) {
+    fetch(flowersURL+flowerId, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(flowerId)
+    })
+    .then(res => res.json())
+    .then(console.log)
+  }
+
+//Get all Flowers
+function fetchFlowers() {
+    return fetch(flowersURL, {
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+
+//Get one Flower
+function fetchFlower(flowerId) {
+    return fetch(flowersURL+flowerId, {
         headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json'

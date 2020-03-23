@@ -4,6 +4,7 @@ class CreateGraves < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :epitaph
       t.string :lifespan
+      t.boolean :open
 
       t.timestamps
     end

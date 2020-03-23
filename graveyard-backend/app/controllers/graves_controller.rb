@@ -23,6 +23,16 @@ class GravesController < ApplicationController
         end
     end
 
+    def update
+      grave = Grave.find(params[:id])
+      if grave
+        grave.update(create_grave_params)
+        render json: grave
+      else
+        render json: { error: "Not found!" }, status: 404
+      end
+    end
+
     def destroy
       grave = Grave.find(params[:id])
       if grave
@@ -36,6 +46,6 @@ class GravesController < ApplicationController
     private
 
     def create_grave_params
-      params.permit(:name, :epitaph, :lifespan)
+      params.permit(:name, :epitaph, :lifespan, :open)
     end
 end
