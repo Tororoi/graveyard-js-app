@@ -27,6 +27,7 @@ const tulipNight = "images/tulip_night.png"
 const peonyDay = "images/peony_day.png"
 const peonyNight = "images/peony_night.png"
 
+const skeleton = "images/corpse_tester.png"
 
 // Testing
 document.addEventListener('DOMContentLoaded', (event) => {
