@@ -4,14 +4,35 @@ const toggle = document.querySelector(".switch")
 const ready = document.querySelector("aside").children[2]
 const flowerCount = document.querySelector("aside").children[4]
 const newGrave = document.querySelector("aside").children[6]
-const graveyard = document.querySelector(".grid-container")
-const plots = graveyard.children
-// plot one is plots[0], etc.
 
-// an event listener on toggle will:
-// 1. change page background color, whatever other css stuff, music even
-// 2. trigger the rise
-// 3. grey out + disable the toggle until all zombs in grave
+const canvas = document.querySelector("#gameCanvas")
+const context = canvas.getContext("2d")
+
+//Create Plots
+// context.beginPath();
+// context.rect(20, 20, 150, 100);
+// context.stroke();
+// function generatePlots() {
+    
+// }
+
+const a1 = new Plot(context, {x: 0, y: 0})
+const a2 = new Plot(context, {x: 1, y: 0})
+const a3 = new Plot(context, {x: 2, y: 0})
+const a4 = new Plot(context, {x: 3, y: 0,})
+const a5 = new Plot(context, {x: 4, y: 0,})
+const b1 = new Plot(context, {x: 0, y: 1,})
+const b2 = new Plot(context, {x: 1, y: 1,})
+const b3 = new Plot(context, {x: 2, y: 1,})
+const b4 = new Plot(context, {x: 3, y: 1,})
+const b5 = new Plot(context, {x: 4, y: 1,})
+const c1 = new Plot(context, {x: 0, y: 2,})
+const c2 = new Plot(context, {x: 1, y: 2,})
+const c3 = new Plot(context, {x: 2, y: 2,})
+const c4 = new Plot(context, {x: 3, y: 2,})
+const c5 = new Plot(context, {x: 4, y: 2,})
+
+  Plot.all.forEach(plot => plot.draw())
 
 // Assets
 
@@ -29,28 +50,6 @@ const peonyNight = "images/peony_night.png"
 
 const skeleton = "images/corpse_tester.png"
 
-// Testing
-document.addEventListener('DOMContentLoaded', (event) => {
-    displayStartingGraves()
-})
-
-function displayStartingGraves(){
-    const randomPlots = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]).slice(0, 3) // 3 random numbers btw 0 and 14
-    randomPlots.forEach(index => {
-        plots[index].innerHTML = `
-        <img src=${openGraveDay} class="grave_img">
-        `
-    })
-}
-
-function shuffleArray(array) { // This is what it takes to generate several random unique numbers in a particular range in javascript, I guess 
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array
-}
-
 
 //Routes
 const gravesURL = `http://localhost:3000/graves/`
@@ -60,7 +59,6 @@ const flowersURL = `http://localhost:3000/flowers/`
 const testUl = document.createElement('ul')
 const body = document.querySelector('body')
 body.append(testUl)
-
 
 //tester objects
 const newGraveObj = {
@@ -238,3 +236,36 @@ function fetchFlower(flowerId) {
     .then(res => res.json())
     .then(console.log)
 }
+
+// obsolete grid stuff
+
+// const graveyard = document.querySelector(".grid-container")
+// const plots = graveyard.children
+// plot one is plots[0], etc.
+
+// an event listener on toggle will:
+// 1. change page background color, whatever other css stuff, music even
+// 2. trigger the rise
+// 3. grey out + disable the toggle until all zombs in grave
+
+// Testing
+// document.addEventListener('DOMContentLoaded', (event) => {
+//     displayStartingGraves()
+// })
+
+// function displayStartingGraves(){
+//     const randomPlots = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]).slice(0, 3) // 3 random numbers btw 0 and 14
+//     randomPlots.forEach(index => {
+//         plots[index].innerHTML = `
+//         <img src=${openGraveDay} class="grave_img">
+//         `
+//     })
+// }
+
+// function shuffleArray(array) { // This is what it takes to generate several random unique numbers in a particular range in javascript, I guess 
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array
+// }

@@ -1,6 +1,7 @@
 h1 {
   color: #eaff00;
   font-family: 'Courier', serif;
+  font-size: 32pt
 }
 
 aside {
@@ -74,7 +75,14 @@ body {
     background-color: rgb(216, 216, 216);
     }
 
-    .grid-container {
+    #gameCanvas {
+      padding: 0;
+      display: block;
+      margin: 0 auto;
+      background-color: rgb(161, 208, 163);
+    }
+
+    /* .grid-container {
       display: inline-grid;
       grid-template-columns: 40px 40px 40px 40px 40px;
       grid-template-rows: 160px 160px 160px;
@@ -97,7 +105,7 @@ body {
       right: 50px;
       bottom: 120px;
 
-    }
+    } */
     
     /* .flex-container {
       display: flex;
@@ -115,3 +123,4 @@ body {
         line-height: 75px;
         font-size: 30px;
       } */
+      

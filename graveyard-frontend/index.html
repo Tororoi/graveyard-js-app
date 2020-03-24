@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="src/Plot.js"></script>
   <script defer src="src/index.js"></script>
   <title>The Graveyard Shift</title>
 </head>
 <body>
-  <h1>The Graveyard Shift</h1>
-  <aside>
+  <aside> 
+    <h1>The Graveyard Shift</h1> 
+    <br><hr>
     <label class="switch">
       <input type="checkbox">
       <span class="slider"></span>
@@ -37,7 +39,7 @@
       <div>Grave 7</div>
       <div>Grave 8</div>
     </div> -->
-    <div class="grid-container">
+    <!-- <div class="grid-container">
       <div class="grid-item">Plot 1</div>
       <div class="grid-item">Plot 2</div>
       <div class="grid-item">Plot 3</div>
@@ -54,7 +56,9 @@
       <div class="grid-item">Plot 14</div>
       <div class="grid-item">Plot 15</div>
       
-    </div>
+    </div> -->
+    <canvas id="gameCanvas" width="1024" height="736" style="border:1px solid #000000;">
+    </canvas>
   </section>
 </body>
 </html>
