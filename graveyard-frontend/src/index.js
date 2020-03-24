@@ -10,13 +10,7 @@ const newGrave = document.querySelector("aside").children[6]
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
 
-//Create Plots
-// context.beginPath();
-// context.rect(20, 20, 150, 100);
-// context.stroke();
-// function generatePlots() {
-    
-// }
+// Create Plots
 
 const a1 = new Plot(context, {x: 0, y: 0})
 const a2 = new Plot(context, {x: 1, y: 0})
@@ -33,8 +27,7 @@ const c2 = new Plot(context, {x: 1, y: 2,})
 const c3 = new Plot(context, {x: 2, y: 2,})
 const c4 = new Plot(context, {x: 3, y: 2,})
 const c5 = new Plot(context, {x: 4, y: 2,})
-
-  Plot.all.forEach(plot => plot.draw())
+Plot.all.forEach(plot => plot.draw())
 
 // Assets
 
@@ -117,18 +110,26 @@ const newFlowerObj = {
 // 3. grey out + disable the toggle until all zombs in grave
 
 // Testing
-// document.addEventListener('DOMContentLoaded', (event) => {
-//     displayStartingGraves()
-// })
+document.addEventListener('DOMContentLoaded', (event) => {
+    displayStartingGraves(3)
+})
 
-// function displayStartingGraves(){
-//     const randomPlots = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]).slice(0, 3) // 3 random numbers btw 0 and 14
-//     randomPlots.forEach(index => {
-//         plots[index].innerHTML = `
-//         <img src=${openGraveDay} class="grave_img">
-//         `
-//     })
-// }
+function displayStartingGraves(num){
+    const numOfGraves = fetchGraves().length
+    const randomPlots = randomInts(num, Plot.all.length)
+    const randomGraves = randomInts(num, numOfGraves)
+    randomPlots.forEach(index => {
+        
+    })
+}
+
+function randomInts(quantity, max){
+    const set = new Set()
+    while(set.size < quantity) {
+      set.add(Math.floor(Math.random() * max) + 1)
+    }
+    return set
+  }
 
 // function shuffleArray(array) { // This is what it takes to generate several random unique numbers in a particular range in javascript, I guess 
 //     for (let i = array.length - 1; i > 0; i--) {
