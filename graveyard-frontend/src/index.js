@@ -1,3 +1,5 @@
+const adapter = new APIAdapter("http:localhost:3000")
+
 // Elements
 
 const toggle = document.querySelector(".switch")
@@ -52,10 +54,7 @@ function shuffleArray(array) { // This is what it takes to generate several rand
 }
 
 
-//Routes
-const gravesURL = `http://localhost:3000/graves/`
-const corpsesURL = `http://localhost:3000/corpses/`
-const flowersURL = `http://localhost:3000/flowers/`
+////
 
 const testUl = document.createElement('ul')
 const body = document.querySelector('body')
@@ -83,158 +82,27 @@ const newFlowerObj = {
 
 //-------Grave Fetches-------//
 //Post Grave
-function postGrave(data) {
-    return fetch(gravesURL, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
-
+// adapter.postGrave(newGraveObj)
 //Delete Grave
-function deleteGrave(graveId) {
-    fetch(gravesURL+graveId, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(graveId)
-    })
-    .then(res => res.json())
-    .then(console.log)
-  }
 
 //Get all graves
-function fetchGraves() {
-    return fetch(gravesURL, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //Get one grave
-function fetchGrave(graveId) {
-    return fetch(gravesURL+graveId, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //--------Corpse Fetches--------//
 //Post Corpse
-function postCorpse(data) {
-    return fetch(corpsesURL, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //Delete Corpse
-function deleteCorpse(corpseId) {
-    fetch(corpsesURL+corpseId, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(corpseId)
-    })
-    .then(res => res.json())
-    .then(console.log)
-  }
 
 //Get all corpses
-function fetchCorpses() {
-    return fetch(corpsesURL, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //Get one corpse
-function fetchCorpse(corpseId) {
-    return fetch(corpsesURL+corpseId, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
+
 //-------Flower Fetches--------//
 //Post Flower
-function postFlower(data) {
-    return fetch(flowersURL, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //Delete Flower
-function deleteFlower(flowerId) {
-    fetch(flowersURL+flowerId, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(flowerId)
-    })
-    .then(res => res.json())
-    .then(console.log)
-  }
 
 //Get all Flowers
-function fetchFlowers() {
-    return fetch(flowersURL, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
 
 //Get one Flower
-function fetchFlower(flowerId) {
-    return fetch(flowersURL+flowerId, {
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
