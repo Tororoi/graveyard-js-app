@@ -2,7 +2,7 @@ const adapter = new APIAdapter("http:localhost:3000")
 
 // Elements
 
-const toggle = document.querySelector(".switch")
+const nightSwitch = document.querySelector(".switch")
 const ready = document.querySelector("aside").children[2]
 const flowerCount = document.querySelector("aside").children[4]
 const newGrave = document.querySelector("aside").children[6]
@@ -10,13 +10,15 @@ const newGrave = document.querySelector("aside").children[6]
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
 
+//-------- Event Listeners ----------//
+nightSwitch.addEventListener("click", handleNightSwitchClick)
+
+//---------Event Handlers ----------//
+function handleNightSwitchClick() {
+  document.body.classList.toggle("dark-mode")
+}
+
 //Create Plots
-// context.beginPath();
-// context.rect(20, 20, 150, 100);
-// context.stroke();
-// function generatePlots() {
-    
-// }
 
 const a1 = new Plot(context, {x: 0, y: 0})
 const a2 = new Plot(context, {x: 1, y: 0})

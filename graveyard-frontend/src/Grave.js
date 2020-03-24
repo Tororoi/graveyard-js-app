@@ -9,3 +9,4 @@ class Grave {
     draw() {
         this.context.drawImage(this.image, this.coords.x, this.coords.y, this.coords.width, this.coords.height)
       }
+}
