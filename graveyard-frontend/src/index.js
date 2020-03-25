@@ -1,17 +1,5 @@
 const adapter = new APIAdapter("http:localhost:3000")
 
-//---------------Assets-----------------//
-const openGraveDay = "images/open_grave_day.png"
-const openGraveNight = "images/open_grave_night.png"
-const closedGraveDay = "images/closed_grave_day.png"
-const closedGraveNight = "images/closed_grave_night.png"
-const daffodilDay = "images/daffodil_day.png"
-const daffodilNight = "images/daffodil_night.png"
-const tulipDay = "images/tulip_day.png"
-const tulipNight = "images/tulip_night.png"
-const peonyDay = "images/peony_day.png"
-const peonyNight = "images/peony_night.png"
-const skeleton = "images/corpse_tester.png"
 
 //--------------DOM Elements---------------//
 const app = document.querySelector("body")
@@ -40,6 +28,8 @@ controlledGraveForm.onSubmit = () => {
         .then(actualNewGrave => {
             chosenPlot.renderGrave(actualNewGrave)
     })
+    form.reset()
+    form.style.display = "none";
 }
 
 
@@ -63,12 +53,18 @@ function handleNightSwitchClick(e) {
     aside.setAttribute("data-light-mode", "day");
     h1.setAttribute("data-light-mode", "day");
     canvas.setAttribute("data-light-mode", "day");
+    GraveDisplay.all.forEach(grave => {
+        grave.image.src = closedGraveDay //currently no equivalent of webkit transition
+    })
 } else {
     nightmode = "night";
     app.setAttribute("data-light-mode", "night");
     aside.setAttribute("data-light-mode", "night");
     h1.setAttribute("data-light-mode", "night");
     canvas.setAttribute("data-light-mode", "night");
+    GraveDisplay.all.forEach(grave => {
+        grave.image.src = closedGraveNight
+    })
 }
 }
 
@@ -93,7 +89,6 @@ const c5 = new Plot(context, {x: 4, y: 2,})
 function initGraveyard() {
     adapter.fetchGraves()
         .then(graves => {
-            console.log(graves)
             var remainingGraveSeeds = shuffleArray(graves)
             return remainingGraveSeeds
         })
@@ -139,11 +134,15 @@ function handleCanvasClick(e) {
     let mouseX = e.offsetX
     let mouseY = e.offsetY
     console.log(`${mouseX},${mouseY}`)
+    if (nightmode === "night") {
+        console.log("It's night time!")
+    } else {
     Plot.all.forEach(plot => {
         if (!plot.taken && mouseY > plot.coords.y && mouseY < plot.coords.y + plot.coords.height 
             && mouseX > plot.coords.x && mouseX < plot.coords.x + plot.coords.width) {
             console.log(`clicked empty plot ${Plot.all.indexOf(plot)}`)
             chosenPlot = plot
+            form.style.display = "block";
         }
     })
     GraveDisplay.all.forEach(grave => {
@@ -152,6 +151,7 @@ function handleCanvasClick(e) {
             console.log(grave.grave)
         }
     })
+    }
 }
 //--------Post New Grave-------//
 //--Event Listeners--//
@@ -159,7 +159,6 @@ digGrave.addEventListener("click", handleNewGrave)
 //--Event Handlers--//
 function handleNewGrave(e) {
     //create form and render to the screen
-    form.style.display = "block";
     alert("Choose an empty plot")
 }
 

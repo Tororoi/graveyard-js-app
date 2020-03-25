@@ -5,7 +5,7 @@ class GraveDisplay {
     constructor(context, coords, grave) {
         this.image = new Image()
         this.context = context
-        this.image.src = "../graveyard-frontend/images/closed_grave_day.png"
+        this.image.src = closedGraveDay
         this.coords = coords
         this.grave = grave
 
@@ -22,7 +22,7 @@ class GraveDisplay {
             context.drawImage(image, x - 16, y - 50)
             console.log(this.coords)
         }
-        this.image.src = "../graveyard-frontend/images/closed_grave_day.png"
+        this.image.src = closedGraveDay
       }
 
     }

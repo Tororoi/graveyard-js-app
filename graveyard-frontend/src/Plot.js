@@ -25,8 +25,6 @@ class Plot {
     renderGrave(graveObj) { 
       const grave = new GraveDisplay(this.context, this.coords, graveObj)
       this.taken = true;
-      console.log("grave rendered")
       grave.draw()
-      console.log("grave drawn")
     }
   }
