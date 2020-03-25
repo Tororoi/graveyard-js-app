@@ -130,11 +130,26 @@ function shuffleArray(array) {
     return clone
 }
 //--------Post New Grave-------//
+//--Canvas Helpers--//
+
 //--Event Listeners--//
+canvas.addEventListener("click", handleCanvasClick, false)
 digGrave.addEventListener("click", handleNewGrave)
 //--Event Handlers--//
+function handleCanvasClick(e) {
+    let mouseX = e.offsetX
+    let mouseY = e.offsetY
+    console.log(`${mouseX},${mouseY}`)
+    Plot.all.forEach(plot => {
+        if (!plot.taken && mouseY > plot.coords.y && mouseY < plot.coords.y + plot.coords.height 
+            && mouseX > plot.coords.x && mouseX < plot.coords.x + plot.coords.width) {
+            console.log(`clicked ${plot}`)
+        }
+    })
+}
 function handleNewGrave(e) {
     //create form and render to the screen
+    alert("Choose an empty plot")
 }
 
 /////// Proving that we can render the grave attached to a fetched grave object:

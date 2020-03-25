@@ -11,6 +11,7 @@ class Plot {
       this.coords.width = 96
       this.coords.height = 192
       
+      this.taken = false;
       Plot.all.push(this)
     }
   
@@ -23,6 +24,7 @@ class Plot {
 
     renderGrave(graveObj) { 
       const grave = new GraveDisplay(this.context, this.coords, graveObj)
+      this.taken = true;
       console.log("grave rendered")
       grave.draw()
       console.log("grave drawn")
