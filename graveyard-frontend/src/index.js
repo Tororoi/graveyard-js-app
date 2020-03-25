@@ -1,24 +1,59 @@
 const adapter = new APIAdapter("http:localhost:3000")
 
-// Elements
+//---------------Assets-----------------//
+const openGraveDay = "images/open_grave_day.png"
+const openGraveNight = "images/open_grave_night.png"
+const closedGraveDay = "images/closed_grave_day.png"
+const closedGraveNight = "images/closed_grave_night.png"
+const daffodilDay = "images/daffodil_day.png"
+const daffodilNight = "images/daffodil_night.png"
+const tulipDay = "images/tulip_day.png"
+const tulipNight = "images/tulip_night.png"
+const peonyDay = "images/peony_day.png"
+const peonyNight = "images/peony_night.png"
+const skeleton = "images/corpse_tester.png"
+
+//--------------DOM Elements---------------//
 const app = document.querySelector("body")
 const nightSwitch = document.querySelector("#toggle-dark-mode")
 const h1 = document.querySelector("h1")
 const aside = document.querySelector("aside")
-const ready = aside.children[2]
-const flowerCount = aside.children[4]
-const newGrave = aside.children[6]
-
+const ready = aside.children[2]//not right
+const flowerCount = aside.children[4]//not right
+const digGrave = document.querySelector("#post-grave")
+const graveForm = document.querySelector("#grave-form")
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
 
-// Create Plots
+const controlledGraveForm = new ControlledForm(graveForm)
+
+controlledGraveForm.onInput = () => {
+    console.log(controlledGraveForm.data)
+}
+
+controlledGraveForm.onSubmit = () => {
+    const newGrave = controlledGraveForm.data
+    console.log(newGrave)
+    adapter.postGrave(newGrave)
+    //     .then(actualNewGrave => {
+            // let plot = chosenPlot
+            // renderGrave(actualNewGrave) <---don't actually have plot yet
+    // })
+}
+
+
+//---------Initialize Graveyard---------//
+document.addEventListener('DOMContentLoaded', (event) => {
+    Plot.all.forEach(plot => plot.draw())
+    initGraveyard()
+})
+
+//**********ACTIONS***********//
+//--------Toggle Night Mode---------//
 let nightmode = "day"
-
-//-------- Event Listeners ----------//
+//--Event Listeners--//
 nightSwitch.addEventListener("click", handleNightSwitchClick)
-
-//---------Event Handlers ----------//
+//--Event Handlers --//
 function handleNightSwitchClick(e) {
   document.body.classList.toggle("dark-mode")
   console.log(e.target)
@@ -37,14 +72,8 @@ function handleNightSwitchClick(e) {
 }
 }
 
-///////////////////////////
-
-
-
-////////////////////////
-
-//Create Plots
-
+//----------Render Graves-----------//
+//------Create Plots------//
 const a1 = new Plot(context, {x: 0, y: 0})
 const a2 = new Plot(context, {x: 1, y: 0})
 const a3 = new Plot(context, {x: 2, y: 0})
@@ -60,55 +89,8 @@ const c2 = new Plot(context, {x: 1, y: 2,})
 const c3 = new Plot(context, {x: 2, y: 2,})
 const c4 = new Plot(context, {x: 3, y: 2,})
 const c5 = new Plot(context, {x: 4, y: 2,})
-Plot.all.forEach(plot => plot.draw())
-
-// Assets
-
-const openGraveDay = "images/open_grave_day.png"
-const openGraveNight = "images/open_grave_night.png"
-const closedGraveDay = "images/closed_grave_day.png"
-const closedGraveNight = "images/closed_grave_night.png"
-
-const daffodilDay = "images/daffodil_day.png"
-const daffodilNight = "images/daffodil_night.png"
-const tulipDay = "images/tulip_day.png"
-const tulipNight = "images/tulip_night.png"
-const peonyDay = "images/peony_day.png"
-const peonyNight = "images/peony_night.png"
-
-const skeleton = "images/corpse_tester.png"
-
-// Get graves
-
-
-
-////
-
-const testUl = document.createElement('ul')
-const body = document.querySelector('body')
-body.append(testUl)
-
-//tester objects
-const newGraveObj = {
-    name: "John Doe",
-    epitaph: "Died as he lived, unknown",
-    lifespan: "1805-1892",
-    open: false //always false for new grave. new graves are made by clicking on an empty plot while cursor is shovel.
-}
-const newCorpseObj = {
-    name: "John Doe",
-    speed: 1,
-    flowers_needed: 2,
-    grave_id: 1
-}
-const newFlowerObj = {
-    name: "Tulip",
-    worth: 2, //name and worth connected, selected from form 
-    grave_id: 1 //grave is chosen by clicking on the grave while cursor is flower
-}
-
-
-document.addEventListener('DOMContentLoaded', (event) => {
+//-----Initialize Graves-----//
+function initGraveyard() {
     adapter.fetchGraves()
         .then(graves => {
             console.log(graves)
@@ -120,8 +102,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             displayStartingGraves(3, threeInitialGraves)
             return remainingGraveSeeds
         })
-})
-
+}
+//---render initial graves---//
 function displayStartingGraves(num, gravearray){
     var randomPlotIndices = randomInts(num, Plot.all.length)
     randomPlotIndices.forEach(i => {
@@ -130,7 +112,7 @@ function displayStartingGraves(num, gravearray){
             gravearray.shift()
             })
         }
-
+//-get random numbers for plots-//
 function randomInts(quantity, max){
     const set = new Set()
     while(set.size < quantity) {
@@ -138,7 +120,7 @@ function randomInts(quantity, max){
     }
     return Array.from(set)
   }
-
+//-get array in random order-//
 function shuffleArray(array) {
     const clone = array.slice(0)
     for (let i = clone.length - 1; i > 0; i--) {
@@ -146,6 +128,13 @@ function shuffleArray(array) {
         [clone[i], clone[j]] = [clone[j], clone[i]];
     }
     return clone
+}
+//--------Post New Grave-------//
+//--Event Listeners--//
+digGrave.addEventListener("click", handleNewGrave)
+//--Event Handlers--//
+function handleNewGrave(e) {
+    //create form and render to the screen
 }
 
 /////// Proving that we can render the grave attached to a fetched grave object:
@@ -181,3 +170,22 @@ function shuffleArray(array) {
 //     }
 
 // Test1()
+
+//tester objects
+const newGraveObj = {
+    name: "John Doe",
+    epitaph: "Died as he lived, unknown",
+    lifespan: "1805-1892",
+    open: false //always false for new grave. new graves are made by clicking on an empty plot while cursor is shovel.
+}
+const newCorpseObj = {
+    name: "John Doe",
+    speed: 1,
+    flowers_needed: 2,
+    grave_id: 1
+}
+const newFlowerObj = {
+    name: "Tulip",
+    worth: 2, //name and worth connected, selected from form 
+    grave_id: 1 //grave is chosen by clicking on the grave while cursor is flower
+}

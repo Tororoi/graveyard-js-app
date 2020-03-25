@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <script src="src/APIAdapter.js"></script>
+  <script src="src/ControlledForm.js"></script>
   <script src="src/Plot.js"></script>
   <script src="src/GraveDisplay.js"></script>
   <script defer src="src/index.js"></script>
@@ -26,9 +27,15 @@
       Place flower
     </p>
     <br>
-    <p>
+    <p id="post-grave">
       Dig New Grave
     </p>
+    <form id="grave-form" class="form">
+      <input type="text" name="name" placeholder="Name of the deceased here..." autocomplete="off">
+      <textarea name="epitaph" placeholder="Write about their life here..."></textarea>
+      <input type="text" name="lifespan" placeholder="Their lifespan here..." autocomplete="off">
+      <input type="submit" value="Hold The Funeral" class="button">
+    </form>
   </aside>
   <section>
     <!-- <div class="flex-container">
