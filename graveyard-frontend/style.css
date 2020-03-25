@@ -1,7 +1,15 @@
 h1 {
   color: #eaff00;
   font-family: 'Courier', serif;
-  font-size: 32pt
+  font-size: 32pt;
+  transition: .4s;
+  -webkit-transition: .4s;
+}
+
+h1[data-light-mode="night"] {
+  color: #00d37b;
+  font-family: 'Courier', serif;
+  font-size: 32pt;
 }
 
 aside {
@@ -12,6 +20,12 @@ aside {
   font-style: bold;
   color: #eaff00;
   font-family: 'Courier', serif;
+  transition: .4s;
+  -webkit-transition: .4s;
+}
+
+aside[data-light-mode="night"] {
+  color: #00d37b;
 }
 
 aside > p {
@@ -24,15 +38,12 @@ p {
 
 body {
   background-color: rgb(151, 171, 177);
+  transition: .4s;
+  -webkit-transition: .4s;
 }
 
-body.dark-mode {
-  --main-bg-color: rgb(0, 0, 0);
-  --alt-bg-color: rgb(89, 89, 89);
-  --main-font-color: #000000;
-  --alt-font-color: rgba(255, 255, 255, 0.85);
-  --alt-font-color-light: rgba(255, 255, 255, 0.776);
-  --theme-primary: #7965dc;
+body[data-light-mode="night"] {
+  background-color: #000;
 }
 
 .switch {
@@ -56,8 +67,8 @@ body.dark-mode {
   right: 0;
   bottom: 0;
   background-color: rgb(121, 213, 230);
-  -webkit-transition: .4s;
   transition: .4s;
+  -webkit-transition: .4s;
 }
     
 .slider:before {
@@ -68,12 +79,12 @@ body.dark-mode {
   left: 4px;
   bottom: 4px;
   background-color: rgb(255, 247, 0);
-  -webkit-transition: .4s;
   transition: .4s;
+  -webkit-transition: .4s;
 }
     
 input:checked + .slider {
-  background-color: rgb(4, 8, 11);
+  background-color: #00d37b;
 }
     
     
@@ -89,6 +100,15 @@ input:checked + .slider:before {
   display: block;
   margin: 0 auto;
   background-color: rgb(161, 208, 163);
+  transition: .4s;
+  -webkit-transition: .4s;
+}
+
+#gameCanvas[data-light-mode="night"]  {
+  padding: 0;
+  display: block;
+  margin: 0 auto;
+  background-color: rgb(64, 119, 122);
 }
 
     /* .grid-container {

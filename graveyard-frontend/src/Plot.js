@@ -17,6 +17,7 @@ class Plot {
   
     draw() {
       this.context.rect(this.coords.x, this.coords.y, this.coords.width, this.coords.height)
+      this.context.lineWidth = 3;
       this.context.stroke();
     }
   }
