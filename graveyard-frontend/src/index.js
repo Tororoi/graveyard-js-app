@@ -50,18 +50,12 @@ function handleNightSwitchClick(e) {
   if (nightmode === "night") {
     nightmode = "day";
     app.setAttribute("data-light-mode", "day");
-    aside.setAttribute("data-light-mode", "day");
-    h1.setAttribute("data-light-mode", "day");
-    canvas.setAttribute("data-light-mode", "day");
     GraveDisplay.all.forEach(grave => {
         grave.image.src = closedGraveDay //currently no equivalent of webkit transition
     })
 } else {
     nightmode = "night";
     app.setAttribute("data-light-mode", "night");
-    aside.setAttribute("data-light-mode", "night");
-    h1.setAttribute("data-light-mode", "night");
-    canvas.setAttribute("data-light-mode", "night");
     GraveDisplay.all.forEach(grave => {
         grave.image.src = closedGraveNight
     })

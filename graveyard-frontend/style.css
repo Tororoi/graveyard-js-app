@@ -6,7 +6,7 @@ h1 {
   -webkit-transition: .4s;
 }
 
-h1[data-light-mode="night"] {
+body[data-light-mode="night"] h1 {
   color: #00d37b;
   font-family: 'Courier', serif;
   font-size: 32pt;
@@ -28,7 +28,7 @@ aside {
   -webkit-transition: .4s;
 }
 
-aside[data-light-mode="night"] {
+body[data-light-mode="night"] aside {
   color: #00d37b;
 }
 
@@ -108,7 +108,7 @@ input:checked + .slider:before {
   -webkit-transition: .4s;
 }
 
-#gameCanvas[data-light-mode="night"]  {
+body[data-light-mode="night"] #gameCanvas {
   padding: 0;
   display: block;
   margin: 0 auto;
