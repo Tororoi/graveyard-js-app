@@ -12,6 +12,10 @@ h1[data-light-mode="night"] {
   font-size: 32pt;
 }
 
+#grave-form {
+  display: none;
+}
+
 aside {
   width: 20%;
   padding-left: .5rem;

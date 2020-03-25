@@ -1,11 +1,15 @@
 class GraveDisplay {
     //coords assigned by plot instance
+    static all = []
+
     constructor(context, coords, grave) {
         this.image = new Image()
         this.context = context
         this.image.src = "../graveyard-frontend/images/closed_grave_day.png"
         this.coords = coords
         this.grave = grave
+
+        GraveDisplay.all.push(this)
     }
 
     draw() {

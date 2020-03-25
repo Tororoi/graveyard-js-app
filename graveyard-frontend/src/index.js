@@ -24,6 +24,8 @@ const digGrave = document.querySelector("#post-grave")
 const graveForm = document.querySelector("#grave-form")
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
+const form = document.querySelector("#grave-form")
+let chosenPlot
 
 const controlledGraveForm = new ControlledForm(graveForm)
 
@@ -35,10 +37,9 @@ controlledGraveForm.onSubmit = () => {
     const newGrave = controlledGraveForm.data
     console.log(newGrave)
     adapter.postGrave(newGrave)
-    //     .then(actualNewGrave => {
-            // let plot = chosenPlot
-            // renderGrave(actualNewGrave) <---don't actually have plot yet
-    // })
+        .then(actualNewGrave => {
+            chosenPlot.renderGrave(actualNewGrave)
+    })
 }
 
 
@@ -56,7 +57,6 @@ nightSwitch.addEventListener("click", handleNightSwitchClick)
 //--Event Handlers --//
 function handleNightSwitchClick(e) {
   document.body.classList.toggle("dark-mode")
-  console.log(e.target)
   if (nightmode === "night") {
     nightmode = "day";
     app.setAttribute("data-light-mode", "day");
@@ -133,7 +133,7 @@ function shuffleArray(array) {
 //--Canvas Helpers--//
 
 //--Event Listeners--//
-canvas.addEventListener("click", handleCanvasClick, false)
+canvas.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
     let mouseX = e.offsetX
@@ -142,7 +142,14 @@ function handleCanvasClick(e) {
     Plot.all.forEach(plot => {
         if (!plot.taken && mouseY > plot.coords.y && mouseY < plot.coords.y + plot.coords.height 
             && mouseX > plot.coords.x && mouseX < plot.coords.x + plot.coords.width) {
-            console.log(`clicked ${plot}`)
+            console.log(`clicked empty plot ${Plot.all.indexOf(plot)}`)
+            chosenPlot = plot
+        }
+    })
+    GraveDisplay.all.forEach(grave => {
+        if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
+            && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
+            console.log(grave.grave)
         }
     })
 }
@@ -152,6 +159,7 @@ digGrave.addEventListener("click", handleNewGrave)
 //--Event Handlers--//
 function handleNewGrave(e) {
     //create form and render to the screen
+    form.style.display = "block";
     alert("Choose an empty plot")
 }
 
