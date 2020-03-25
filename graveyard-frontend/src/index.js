@@ -1,16 +1,49 @@
 const adapter = new APIAdapter("http:localhost:3000")
 
 // Elements
-
-const toggle = document.querySelector(".switch")
-const ready = document.querySelector("aside").children[2]
-const flowerCount = document.querySelector("aside").children[4]
-const newGrave = document.querySelector("aside").children[6]
+const app = document.querySelector("body")
+const nightSwitch = document.querySelector("#toggle-dark-mode")
+const h1 = document.querySelector("h1")
+const aside = document.querySelector("aside")
+const ready = aside.children[2]
+const flowerCount = aside.children[4]
+const newGrave = aside.children[6]
 
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
 
 // Create Plots
+let nightmode = "day"
+
+//-------- Event Listeners ----------//
+nightSwitch.addEventListener("click", handleNightSwitchClick)
+
+//---------Event Handlers ----------//
+function handleNightSwitchClick(e) {
+  document.body.classList.toggle("dark-mode")
+  console.log(e.target)
+  if (nightmode === "night") {
+    nightmode = "day";
+    app.setAttribute("data-light-mode", "day");
+    aside.setAttribute("data-light-mode", "day");
+    h1.setAttribute("data-light-mode", "day");
+    canvas.setAttribute("data-light-mode", "day");
+} else {
+    nightmode = "night";
+    app.setAttribute("data-light-mode", "night");
+    aside.setAttribute("data-light-mode", "night");
+    h1.setAttribute("data-light-mode", "night");
+    canvas.setAttribute("data-light-mode", "night");
+}
+}
+
+///////////////////////////
+
+
+
+////////////////////////
+
+//Create Plots
 
 const a1 = new Plot(context, {x: 0, y: 0})
 const a2 = new Plot(context, {x: 1, y: 0})
