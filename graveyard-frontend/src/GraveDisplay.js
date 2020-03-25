@@ -1,14 +1,24 @@
 class GraveDisplay {
     //coords assigned by plot instance
-    constructor(context, coords, graveObj) {
+    constructor(context, coords, grave) {
         this.image = new Image()
-        this.image.src = "images/closed_grave_day.png"
-        this.coords.x = (coords.x * 192) + 80
-        this.coords.y = ((coords.y - 1) * 224) + 272
-        
+        this.context = context
+        this.image.src = "../graveyard-frontend/images/closed_grave_day.png"
+        this.coords = coords
+        this.grave = grave
     }
 
     draw() {
-        this.context.drawImage(this.image, this.coords.x, this.coords.y, this.coords.width, this.coords.height)
+        const canvas = document.querySelector("#gameCanvas")
+        const context = canvas.getContext("2d")
+        const image = this.image
+        const x = this.coords.x
+        const y = this.coords.y
+        this.image.onload = function() {
+            context.drawImage(image, x - 16, y - 50)
+            console.log(this.coords)
+        }
+        this.image.src = "../graveyard-frontend/images/closed_grave_day.png"
       }
-}
+
+    }

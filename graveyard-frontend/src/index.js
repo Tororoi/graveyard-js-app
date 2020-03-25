@@ -78,6 +78,9 @@ const peonyNight = "images/peony_night.png"
 
 const skeleton = "images/corpse_tester.png"
 
+// Get graves
+
+
 
 ////
 
@@ -104,70 +107,77 @@ const newFlowerObj = {
     grave_id: 1 //grave is chosen by clicking on the grave while cursor is flower
 }
 
-//-------Grave Fetches-------//
-//Post Grave
-// adapter.postGrave(newGraveObj)
-//Delete Grave
 
-//Get all graves
-
-//Get one grave
-
-//--------Corpse Fetches--------//
-//Post Corpse
-
-//Delete Corpse
-
-//Get all corpses
-
-//Get one corpse
-
-//-------Flower Fetches--------//
-//Post Flower
-
-//Delete Flower
-
-//Get all Flowers
-
-//Get one Flower
-
-// obsolete grid stuff
-
-// const graveyard = document.querySelector(".grid-container")
-// const plots = graveyard.children
-// plot one is plots[0], etc.
-
-// an event listener on toggle will:
-// 1. change page background color, whatever other css stuff, music even
-// 2. trigger the rise
-// 3. grey out + disable the toggle until all zombs in grave
-
-// Testing
 document.addEventListener('DOMContentLoaded', (event) => {
-    displayStartingGraves(3)
+    adapter.fetchGraves()
+        .then(graves => {
+            console.log(graves)
+            var remainingGraveSeeds = shuffleArray(graves)
+            return remainingGraveSeeds
+        })
+        .then(remainingGraveSeeds => {
+            var threeInitialGraves = remainingGraveSeeds.splice(0,3)
+            displayStartingGraves(3, threeInitialGraves)
+            return remainingGraveSeeds
+        })
 })
 
-function displayStartingGraves(num){
-    const numOfGraves = fetchGraves().length
-    const randomPlots = randomInts(num, Plot.all.length)
-    const randomGraves = randomInts(num, numOfGraves)
-    randomPlots.forEach(index => {
-        
-    })
-}
+function displayStartingGraves(num, gravearray){
+    var randomPlotIndices = randomInts(num, Plot.all.length)
+    randomPlotIndices.forEach(i => {
+            var plot = Plot.all[i-1]
+            plot.renderGrave(gravearray[0])
+            gravearray.shift()
+            })
+        }
 
 function randomInts(quantity, max){
     const set = new Set()
     while(set.size < quantity) {
       set.add(Math.floor(Math.random() * max) + 1)
     }
-    return set
+    return Array.from(set)
   }
 
-// function shuffleArray(array) { // This is what it takes to generate several random unique numbers in a particular range in javascript, I guess 
-//     for (let i = array.length - 1; i > 0; i--) {
-//         const j = Math.floor(Math.random() * (i + 1));
-//         [array[i], array[j]] = [array[j], array[i]];
+function shuffleArray(array) {
+    const clone = array.slice(0)
+    for (let i = clone.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [clone[i], clone[j]] = [clone[j], clone[i]];
+    }
+    return clone
+}
+
+/////// Proving that we can render the grave attached to a fetched grave object:
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//         adapter.fetchGrave(1)
+//             .then(grave => {
+//                 const x = new GraveDisplay(context, {x: 100, y:100, width:100, height:100}, grave)
+//                 console.log(x)
+//                 console.log(grave)
+//                 return x
+//             })
+//             .then(x => {
+//                 x.draw()
+//             })})
+
+
+////// Proving that we can indeed render the grave:
+
+// function Test1() {
+
+//         var img1 = new Image();
+
+//         //drawing of the test image - img1
+//         img1.onload = function () {
+//             //draw background image
+//             context.drawImage(img1, 0, 0);
+
+
+//         };
+
+//         img1.src = "../graveyard-frontend/images/closed_grave_day.png";
 //     }
-//     return array
-// }
+
+// Test1()

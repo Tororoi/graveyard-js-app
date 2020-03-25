@@ -14,7 +14,6 @@ class APIAdapter {
             body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Delete Grave
     deleteGrave(graveId) {
@@ -27,7 +26,6 @@ class APIAdapter {
         body: JSON.stringify(graveId)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get all graves
     fetchGraves() {
@@ -38,7 +36,6 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get one grave
     fetchGrave(graveId) {
@@ -49,7 +46,6 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //--------Corpse Fetches--------//
     //Post Corpse
@@ -63,7 +59,6 @@ class APIAdapter {
             body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Delete Corpse
     deleteCorpse(corpseId) {
@@ -76,7 +71,6 @@ class APIAdapter {
         body: JSON.stringify(corpseId)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get all corpses
     fetchCorpses() {
@@ -87,7 +81,6 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get one corpse
     fetchCorpse(corpseId) {
@@ -98,7 +91,6 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
     // //-------Flower Fetches--------//
     //Post Flower
@@ -112,7 +104,6 @@ class APIAdapter {
             body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Delete Flower
     deleteFlower(flowerId) {
@@ -125,7 +116,6 @@ class APIAdapter {
         body: JSON.stringify(flowerId)
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get all Flowers
     fetchFlowers() {
@@ -136,7 +126,6 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
     //Get one Flower
     fetchFlower(flowerId) {
@@ -147,6 +136,5 @@ class APIAdapter {
             }
         })
         .then(res => res.json())
-        .then(console.log)
     }
 }

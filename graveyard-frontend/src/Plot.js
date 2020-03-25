@@ -20,4 +20,11 @@ class Plot {
       this.context.lineWidth = 3;
       this.context.stroke();
     }
+
+    renderGrave(graveObj) { 
+      const grave = new GraveDisplay(this.context, this.coords, graveObj)
+      console.log("grave rendered")
+      grave.draw()
+      console.log("grave drawn")
+    }
   }
