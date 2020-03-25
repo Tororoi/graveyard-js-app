@@ -27,7 +27,21 @@ controlledGraveForm.onSubmit = () => {
     adapter.postGrave(newGrave)
         .then(actualNewGrave => {
             chosenPlot.renderGrave(actualNewGrave)
-    })
+            return actualNewGrave
+        })
+        .then(attachCorpse) //currently doesn't render until refreshed. actualNewGrave needs to be told that it has a corpse
+    function attachCorpse(graveData) {
+        const randValue = Math.random()
+        const newCorpse = {
+            name: graveData.name,
+            speed: randValue+1, //between 1 and 2
+            flowers_needed: Math.ceil(randValue*3), //between 1 and 3
+            grave_id: graveData.id
+        }
+        graveData.corpses.push(newCorpse)
+        adapter.postCorpse(newCorpse)
+    }
+    
     form.reset()
     form.style.display = "none";
 }
@@ -58,6 +72,11 @@ function handleNightSwitchClick(e) {
     app.setAttribute("data-light-mode", "night");
     GraveDisplay.all.forEach(grave => {
         grave.image.src = closedGraveNight
+        //Render skeletons
+        const skellies = grave.grave.corpses
+        skellies.forEach(skelly => {
+            grave.renderCorpse(skelly)
+        })
     })
 }
 }
@@ -152,7 +171,7 @@ function handleCanvasClick(e) {
 digGrave.addEventListener("click", handleNewGrave)
 //--Event Handlers--//
 function handleNewGrave(e) {
-    //create form and render to the screen
+    //trigger variable that allows user to render form?
     alert("Choose an empty plot")
 }
 

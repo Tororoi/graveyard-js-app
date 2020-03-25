@@ -1,15 +1,15 @@
-class GraveDisplay {
-    //coords assigned by plot instance
+class Skeleton {
+    //coords assigned by gravedisplay instance
     static all = []
 
-    constructor(context, coords, grave) {
+    constructor(context, coords, corpse) {
         this.image = new Image()
         this.context = context
-        this.image.src = closedGraveDay
+        this.image.src = skeleton
         this.coords = coords
-        this.grave = grave
+        this.corpse = corpse
 
-        GraveDisplay.all.push(this)
+        Skeleton.all.push(this)
     }
 
     draw() {
@@ -22,12 +22,6 @@ class GraveDisplay {
             context.drawImage(image, x - 16, y - 50)
             console.log(this.coords)
         }
-        this.image.src = closedGraveDay
+        this.image.src = skeleton
       }
-
-    renderCorpse(corpseObj) {
-        const corpse = new Skeleton(this.context, this.coords, corpseObj)
-        corpse.draw()
-    }
-
-    }
+}
