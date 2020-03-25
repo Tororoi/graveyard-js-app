@@ -129,12 +129,11 @@ function shuffleArray(array) {
     }
     return clone
 }
-//--------Post New Grave-------//
+//--------Listen for elements on the Canvas-------//
 //--Canvas Helpers--//
 
 //--Event Listeners--//
 canvas.addEventListener("click", handleCanvasClick, false)
-digGrave.addEventListener("click", handleNewGrave)
 //--Event Handlers--//
 function handleCanvasClick(e) {
     let mouseX = e.offsetX
@@ -147,6 +146,10 @@ function handleCanvasClick(e) {
         }
     })
 }
+//--------Post New Grave-------//
+//--Event Listeners--//
+digGrave.addEventListener("click", handleNewGrave)
+//--Event Handlers--//
 function handleNewGrave(e) {
     //create form and render to the screen
     alert("Choose an empty plot")
