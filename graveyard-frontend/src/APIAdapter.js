@@ -95,7 +95,7 @@ class APIAdapter {
     // //-------Flower Fetches--------//
     //Post Flower
     postFlower(data) {
-        return fetch(baseUrl+`/flowers`, {
+        return fetch(this.baseUrl+`/flowers`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

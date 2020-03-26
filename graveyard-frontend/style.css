@@ -16,6 +16,10 @@ body[data-light-mode="night"] h1 {
   display: none;
 }
 
+#flower-form-container {
+  display: none;
+}
+
 aside {
   width: 20%;
   padding-left: .5rem;
@@ -114,46 +118,3 @@ body[data-light-mode="night"] #gameCanvas {
   margin: 0 auto;
   background-color: rgb(64, 119, 122);
 }
-
-    /* .grid-container {
-      display: inline-grid;
-      grid-template-columns: 40px 40px 40px 40px 40px;
-      grid-template-rows: 160px 160px 160px;
-      background-color: rgb(0, 52, 25);
-      padding: 70px;
-      grid-gap: 50px 100px;
-      width: 675px
-    }
-    
-    .grid-item {
-      background-color: rgba(20, 84, 20, 0.8);
-      border: 5px solid rgba(0, 0, 0, 0.8);
-      padding: 50px;
-      font-size: 30px;
-      text-align: left;
-    }
-
-    .grave_img {
-      position: relative;
-      right: 50px;
-      bottom: 120px;
-
-    } */
-    
-    /* .flex-container {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-      align-items: center;
-      align-content: space-around;
-      }
-      
-      .flex-container > div {
-        background-color: #f1f1f1;
-        width: 75px;
-        margin: 10px;
-        text-align: center;
-        line-height: 75px;
-        font-size: 30px;
-      } */
-      

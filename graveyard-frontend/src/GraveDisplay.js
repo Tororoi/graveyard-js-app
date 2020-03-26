@@ -25,4 +25,9 @@ class GraveDisplay {
         this.image.src = closedGraveDay
       }
 
+      renderFlower(coords, name){
+          var flower = new FlowerDisplay(this.context, name)
+          flower.draw(coords)
+      }
+
     }

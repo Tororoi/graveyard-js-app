@@ -6,14 +6,22 @@ const app = document.querySelector("body")
 const nightSwitch = document.querySelector("#toggle-dark-mode")
 const h1 = document.querySelector("h1")
 const aside = document.querySelector("aside")
-const ready = aside.children[2]//not right
-const flowerCount = aside.children[4]//not right
+const ready = aside.children[5]
 const digGrave = document.querySelector("#post-grave")
+const placeFlower = document.querySelector("#post-flower")
+var flowerCount = parseInt(placeFlower.innerText.match(/(\d+)/))
 const graveForm = document.querySelector("#grave-form")
+const flowerForm = document.querySelector("#flower-form")
+const flowerFormContainer = document.querySelector("#flower-form-container")
 const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
-const form = document.querySelector("#grave-form")
+
+//------Canvas variable Declarations------//
 let chosenPlot
+let chosenGrave
+let flowerType
+let mouseX
+let mouseY
 
 const controlledGraveForm = new ControlledForm(graveForm)
 
@@ -23,20 +31,24 @@ controlledGraveForm.onInput = () => {
 
 controlledGraveForm.onSubmit = () => {
     const newGrave = controlledGraveForm.data
+    debugger
     console.log(newGrave)
     adapter.postGrave(newGrave)
         .then(actualNewGrave => {
             chosenPlot.renderGrave(actualNewGrave)
     })
-    form.reset()
-    form.style.display = "none";
+    graveForm.reset()
+    graveForm.style.display = "none";
 }
+
+
 
 
 //---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
     Plot.all.forEach(plot => plot.draw())
     initGraveyard()
+
 })
 
 //**********ACTIONS***********//
@@ -79,7 +91,7 @@ const c2 = new Plot(context, {x: 1, y: 2,})
 const c3 = new Plot(context, {x: 2, y: 2,})
 const c4 = new Plot(context, {x: 3, y: 2,})
 const c5 = new Plot(context, {x: 4, y: 2,})
-//-----Initialize Graves-----//
+//-----Initialize Graves-----// (it returns an array of the grave objects that WEREN'T rendered, in a random order; we can use that for future grave creation)
 function initGraveyard() {
     adapter.fetchGraves()
         .then(graves => {
@@ -101,7 +113,7 @@ function displayStartingGraves(num, gravearray){
             gravearray.shift()
             })
         }
-//-get random numbers for plots-//
+//-get random numbers for plots-// (we could actually use the shuffler for this as well)
 function randomInts(quantity, max){
     const set = new Set()
     while(set.size < quantity) {
@@ -125,8 +137,8 @@ function shuffleArray(array) {
 canvas.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
-    let mouseX = e.offsetX
-    let mouseY = e.offsetY
+    var mouseX = e.offsetX
+    var mouseY = e.offsetY
     console.log(`${mouseX},${mouseY}`)
     if (nightmode === "night") {
         console.log("It's night time!")
@@ -136,13 +148,17 @@ function handleCanvasClick(e) {
             && mouseX > plot.coords.x && mouseX < plot.coords.x + plot.coords.width) {
             console.log(`clicked empty plot ${Plot.all.indexOf(plot)}`)
             chosenPlot = plot
-            form.style.display = "block";
+            graveForm.style.display = "block";
         }
     })
     GraveDisplay.all.forEach(grave => {
         if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
             && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
             console.log(grave.grave)
+            chosenGrave = grave
+            if(flowerCount > 0){
+                handleNewFlower({x: mouseX, y: mouseY}, chosenGrave.grave.id, flowerType)
+            } else {alert("Out of flowers")}
         }
     })
     }
@@ -156,39 +172,40 @@ function handleNewGrave(e) {
     alert("Choose an empty plot")
 }
 
-/////// Proving that we can render the grave attached to a fetched grave object:
+//--------Post New Flower-------//
+//--Event Listeners--//
+placeFlower.addEventListener("click", e =>{
+    if(flowerCount > 0){
+        flowerFormContainer.style.display = "block";
+    } else {alert("Out of flowers")}
+})
 
-// document.addEventListener('DOMContentLoaded', (event) => {
-//         adapter.fetchGrave(1)
-//             .then(grave => {
-//                 const x = new GraveDisplay(context, {x: 100, y:100, width:100, height:100}, grave)
-//                 console.log(x)
-//                 console.log(grave)
-//                 return x
-//             })
-//             .then(x => {
-//                 x.draw()
-//             })})
+const controlledFlowerForm = new ControlledForm(flowerForm)
 
+controlledFlowerForm.onInput = () => {
+    console.log(controlledGraveForm.data)
+}
 
-////// Proving that we can indeed render the grave:
+controlledFlowerForm.onSubmit = () => {
+    flowerType = controlledFlowerForm.data.name
+    alert("Choose a grave")
+    console.log(flowerType)
+}
 
-// function Test1() {
-
-//         var img1 = new Image();
-
-//         //drawing of the test image - img1
-//         img1.onload = function () {
-//             //draw background image
-//             context.drawImage(img1, 0, 0);
-
-
-//         };
-
-//         img1.src = "../graveyard-frontend/images/closed_grave_day.png";
-//     }
-
-// Test1()
+//--Event Handlers--//
+function handleNewFlower(coords, graveid, name) {
+    console.log({"name": name, "grave_id": graveid})
+    adapter.postFlower({"name": name, "grave_id": graveid}) // All flowers are posted with value of 0 right now
+    chosenGrave.renderFlower(coords, name)
+    flowerCount --
+    placeFlower.innerHTML = `
+        Flowers x${flowerCount}
+      <br>
+      Place flower
+    `
+    // create the flower in the backend
+    // display the flower
+}
 
 //tester objects
 const newGraveObj = {
