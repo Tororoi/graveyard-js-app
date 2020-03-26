@@ -26,5 +26,11 @@ class Plot {
       const grave = new GraveDisplay(this.context, this.coords, graveObj)
       this.taken = true;
       grave.draw()
+      var i = 0
+      allFlowers.forEach(flower => {
+        if(flower.grave.id === graveObj.id){
+          grave.renderFlower({x: this.coords.x + (Math.random() * 90), y: this.coords.y + 80 + i}, flower.name)
+          i += (Math.random() * 10)}
+      })
     }
   }

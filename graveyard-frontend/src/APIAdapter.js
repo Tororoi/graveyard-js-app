@@ -119,7 +119,7 @@ class APIAdapter {
     }
     //Get all Flowers
     fetchFlowers() {
-        return fetch(baseUrl+`/flowers`, {
+        return fetch(this.baseUrl+`/flowers`, {
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json'
@@ -127,6 +127,7 @@ class APIAdapter {
         })
         .then(res => res.json())
     }
+
     //Get one Flower
     fetchFlower(flowerId) {
         return fetch(baseUrl+`/flowers/${flowerId}`, {

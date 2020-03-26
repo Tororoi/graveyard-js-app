@@ -17,37 +17,27 @@ const canvas = document.querySelector("#gameCanvas")
 const context = canvas.getContext("2d")
 
 //------Canvas variable Declarations------//
+let flowerType = "Peony"
+let planting = false
 let chosenPlot
 let chosenGrave
-let flowerType
 let mouseX
 let mouseY
 
-const controlledGraveForm = new ControlledForm(graveForm)
-
-controlledGraveForm.onInput = () => {
-    console.log(controlledGraveForm.data)
-}
-
-controlledGraveForm.onSubmit = () => {
-    const newGrave = controlledGraveForm.data
-    debugger
-    console.log(newGrave)
-    adapter.postGrave(newGrave)
-        .then(actualNewGrave => {
-            chosenPlot.renderGrave(actualNewGrave)
-    })
-    graveForm.reset()
-    graveForm.style.display = "none";
-}
-
-
-
-
 //---------Initialize Graveyard---------//
+let allFlowers
+adapter.fetchFlowers()
+    .then(flowers =>{
+    allFlowers = flowers
+    })
+
 document.addEventListener('DOMContentLoaded', (event) => {
-    Plot.all.forEach(plot => plot.draw())
-    initGraveyard()
+    adapter.fetchFlowers()
+        .then(flowers =>{
+            allFlowers = flowers
+        })
+        .then(Plot.all.forEach(plot => plot.draw()))
+        .then(initGraveyard())
 
 })
 
@@ -71,6 +61,8 @@ function handleNightSwitchClick(e) {
     GraveDisplay.all.forEach(grave => {
         grave.image.src = closedGraveNight
     })
+    flowerFormContainer.style.display = "none"
+    graveForm.style.display = "none"
 }
 }
 
@@ -95,6 +87,7 @@ const c5 = new Plot(context, {x: 4, y: 2,})
 function initGraveyard() {
     adapter.fetchGraves()
         .then(graves => {
+            const allGraves = graves // We're not using this right now 
             var remainingGraveSeeds = shuffleArray(graves)
             return remainingGraveSeeds
         })
@@ -137,8 +130,8 @@ function shuffleArray(array) {
 canvas.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
-    var mouseX = e.offsetX
-    var mouseY = e.offsetY
+    mouseX = e.offsetX
+    mouseY = e.offsetY
     console.log(`${mouseX},${mouseY}`)
     if (nightmode === "night") {
         console.log("It's night time!")
@@ -149,6 +142,7 @@ function handleCanvasClick(e) {
             console.log(`clicked empty plot ${Plot.all.indexOf(plot)}`)
             chosenPlot = plot
             graveForm.style.display = "block";
+            planting = false
         }
     })
     GraveDisplay.all.forEach(grave => {
@@ -156,9 +150,9 @@ function handleCanvasClick(e) {
             && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
             console.log(grave.grave)
             chosenGrave = grave
-            if(flowerCount > 0){
+            if(flowerCount > 0 && planting === true){
                 handleNewFlower({x: mouseX, y: mouseY}, chosenGrave.grave.id, flowerType)
-            } else {alert("Out of flowers")}
+            }
         }
     })
     }
@@ -170,32 +164,40 @@ digGrave.addEventListener("click", handleNewGrave)
 function handleNewGrave(e) {
     //create form and render to the screen
     alert("Choose an empty plot")
+    planting = false
 }
+const controlledGraveForm = new ControlledForm(graveForm)
+
+controlledGraveForm.onInput = () => {
+    console.log(controlledGraveForm.data)
+}
+
+controlledGraveForm.onSubmit = () => {
+    planting = false
+    const newGrave = controlledGraveForm.data
+    console.log(newGrave)
+    adapter.postGrave(newGrave)
+        .then(actualNewGrave => {
+            chosenPlot.renderGrave(actualNewGrave)
+    })
+    graveForm.reset()
+    graveForm.style.display = "none";
+}
+
 
 //--------Post New Flower-------//
 //--Event Listeners--//
 placeFlower.addEventListener("click", e =>{
     if(flowerCount > 0){
+        planting = true
         flowerFormContainer.style.display = "block";
     } else {alert("Out of flowers")}
 })
 
-const controlledFlowerForm = new ControlledForm(flowerForm)
-
-controlledFlowerForm.onInput = () => {
-    console.log(controlledGraveForm.data)
-}
-
-controlledFlowerForm.onSubmit = () => {
-    flowerType = controlledFlowerForm.data.name
-    alert("Choose a grave")
-    console.log(flowerType)
-}
-
 //--Event Handlers--//
 function handleNewFlower(coords, graveid, name) {
     console.log({"name": name, "grave_id": graveid})
-    adapter.postFlower({"name": name, "grave_id": graveid}) // All flowers are posted with value of 0 right now
+    adapter.postFlower({"name": name, "grave_id": graveid})
     chosenGrave.renderFlower(coords, name)
     flowerCount --
     placeFlower.innerHTML = `
@@ -203,9 +205,14 @@ function handleNewFlower(coords, graveid, name) {
       <br>
       Place flower
     `
-    // create the flower in the backend
-    // display the flower
 }
+
+// const controlledFlowerForm = new ControlledForm(flowerForm)
+const flowerSelector = document.querySelector("#flowerlist")
+
+flowerSelector.addEventListener('change', (e) => {
+    flowerType = e.target.value
+})
 
 //tester objects
 const newGraveObj = {

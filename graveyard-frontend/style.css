@@ -14,10 +14,12 @@ body[data-light-mode="night"] h1 {
 
 #grave-form {
   display: none;
+  margin: .5rem;
 }
 
 #flower-form-container {
   display: none;
+  margin: .5rem;
 }
 
 aside {
