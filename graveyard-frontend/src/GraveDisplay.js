@@ -29,5 +29,9 @@ class GraveDisplay {
           var flower = new FlowerDisplay(this.context, name)
           flower.draw(coords)
       }
+    renderCorpse(corpseObj) {
+        const corpse = new Skeleton(this.context, this.coords, corpseObj)
+        corpse.draw()
+    }
 
     }
