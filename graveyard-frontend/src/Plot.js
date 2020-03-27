@@ -29,7 +29,7 @@ class Plot {
       var i = 0
       allFlowers.forEach(flower => {
         if(flower.grave.id === graveObj.id){
-          grave.renderFlower({x: this.coords.x + (Math.random() * 90), y: this.coords.y + 80 + i}, flower.name)
+          grave.renderFlower({x: this.coords.x + (Math.random() * 90), y: this.coords.y + 80 + i, width: 64, height: 64}, flower)
           i += (Math.random() * 10)}
       })
     }

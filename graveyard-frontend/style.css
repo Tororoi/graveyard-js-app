@@ -138,7 +138,13 @@ body[data-light-mode="night"] #gameCanvas {
 
 #grave-text {
   position: absolute;
-  top: 400px;
+  top: 482px;
+  text-align: center;
+  margin: 75px;
 
+}
 
+#gravestone {
+  position: absolute;
+  left: 1152px;
 }
