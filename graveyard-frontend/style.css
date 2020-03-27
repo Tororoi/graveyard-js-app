@@ -23,10 +23,11 @@ body[data-light-mode="night"] h1 {
 }
 
 aside {
-  width: 20%;
+  position: absolute;
+  width: 256px;
+  left: 1048px;
   padding-left: .5rem;
   margin-left: .5rem;
-  float: right;
   font-style: bold;
   color: #eaff00;
   font-family: 'Courier', serif;
@@ -47,6 +48,7 @@ p {
 }
 
 body {
+  position: absolute;
   background-color: rgb(151, 171, 177);
   transition: .4s;
   -webkit-transition: .4s;
@@ -137,14 +139,11 @@ body[data-light-mode="night"] #gameCanvas {
 }
 
 #grave-text {
+  font-size: 6;
   position: absolute;
   top: 482px;
   text-align: center;
-  margin: 75px;
+  margin: 60px;
 
 }
 
-#gravestone {
-  position: absolute;
-  left: 1152px;
-}
