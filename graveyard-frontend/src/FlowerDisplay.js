@@ -1,12 +1,17 @@
 class FlowerDisplay {
     static all = []
 
-    constructor(context, name, flower){
+    constructor(context, coords, flower){
         this.image = new Image()
         this.context = context
-        this.name = name
         this.flower = flower
-        switch (this.name){
+        this.coords = coords
+        this.coords.x = coords.x
+        this.coords.y = coords.y
+        this.coords.width = coords.width
+        this.coords.height = coords.height
+        this.dead = false
+        switch (this.flower.name){
             case "Tulip":
                 this.image.src = tulipDay
             break
@@ -22,16 +27,22 @@ class FlowerDisplay {
     }
 
     draw(coords){
-        const canvas = document.querySelector("#gameCanvas")
-        const context = canvas.getContext("2d")
+        // const flower = this.flower <-- use if worth gets defined
+        const ctx = this.context
         const image = this.image
-        const x = coords.x
-        const y = coords.y
-        this.image.onload = function() {
-            context.drawImage(image, x-17, y-60)
-            console.log(this.coords)
-        }
-        switch (this.name){
+        const x = this.coords.x
+        const y = this.coords.y
+        const width = this.coords.width
+        const height = this.coords.height
+        let dead = this.dead
+
+        const CYCLE_LOOP = [0,1,2,3,4,5,6,7,8,9,10,11,12]; //9th frame is key image
+        const FRAME_LIMIT = 6;
+
+        let currentLoopIndex = 0;
+        let frameCount = 0;
+
+        switch (this.flower.name){
             case "Tulip":
                 this.image.src = tulipDay
             break
@@ -41,6 +52,40 @@ class FlowerDisplay {
             case "Peony":
                 this.image.src = peonyDay
             break
+        }
+
+        function drawFrame(frameX, frameY, canvasX, canvasY) {
+            ctx.drawImage(image,
+                            frameX * width, frameY * height, width, height,
+                            canvasX, canvasY, width, height);
+        }
+
+        this.image.onload = function() {
+            // ctx.drawImage(image, x-16, y-64)
+            // console.log(this.coords)
+            window.requestAnimationFrame(gameLoop);
+        }
+        
+        function gameLoop() {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            if (currentLoopIndex<=7) {
+                frameCount++;
+                if (frameCount >= FRAME_LIMIT) {
+                    frameCount = 0;
+                    currentLoopIndex++;
+                }
+            } 
+
+            // if (dead === true) {
+            //     frameCount++;
+            //     if (frameCount >= FRAME_LIMIT) {
+            //         frameCount = 0;
+            //         currentLoopIndex++;
+            //     }
+            //     }
+            drawFrame(CYCLE_LOOP[currentLoopIndex], 0, x, y);
+                window.requestAnimationFrame(gameLoop);
         }
     }
 }

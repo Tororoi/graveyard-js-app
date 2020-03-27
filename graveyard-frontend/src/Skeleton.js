@@ -8,7 +8,7 @@ class Skeleton {
         this.image.src = skelSheet
         this.coords = coords
         this.coords.x = coords.x
-        this.coords.y = coords.y+16
+        this.coords.y = coords.y
         this.coords.width = 128
         this.coords.height = 128
         this.corpse = corpse
@@ -54,8 +54,6 @@ class Skeleton {
                 window.requestAnimationFrame(gameLoop);
             };
             }
-
-
 
         function drawFrame(frameX, frameY, canvasX, canvasY) {
         ctx.drawImage(image,
@@ -156,7 +154,7 @@ class Skeleton {
         // })
         
         xD = mouseX - (x+64)
-        yD = mouseY - (y+64)
+        yD = mouseY - (y+16)
         a = Math.atan2(yD, xD)*180/Math.PI;
         hypotenuse = Math.hypot(xD,yD)
         }

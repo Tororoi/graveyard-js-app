@@ -19,7 +19,6 @@ const canvas = document.querySelector("#gameCanvas")
 const graveCanvas = document.querySelector("#graveCanvas")
 const context = canvas.getContext("2d")
 const graveContext = graveCanvas.getContext("2d")
-const form = document.querySelector("#grave-form")
 let chosenPlot
 let mouseX;
 let mouseY;
@@ -74,8 +73,8 @@ controlledGraveForm.onSubmit = () => {
         adapter.postCorpse(newCorpse)
     }
     
-    form.reset()
-    form.style.display = "none";
+    graveForm.reset()
+    graveForm.style.display = "none";
 }
 
 //Draw Game
@@ -116,12 +115,13 @@ function handleNightSwitchClick(e) {
         })
         //how to remove flowers from grave object after 
     })
-    graveCanvas.width = 1
     Skeleton.all.forEach(skelly => {
         skelly.context.canvas.remove()
     })
     FlowerDisplay.all.forEach(flower => {
-        flower.image.src = `images/${flower.name.toLowerCase()}_day.png`
+        // flower.dead = true;
+        flower.context.canvas.remove()
+        // flower.image.src = `images/${flower.flower.name.toLowerCase()}_day.png`
     })
     // canvas.remove()
 } else {
@@ -135,13 +135,13 @@ function handleNightSwitchClick(e) {
             if (grave.grave.flowers.length >= skelly.flowers_needed) {
                 console.log(`let ${skelly.name} rest`)
             } else {
-                grave.renderCorpse(skelly,grave.coords,1)
+                grave.renderCorpse(skelly,grave.coords,2)
             }
             
         })
     })
     FlowerDisplay.all.forEach(flower => {
-        flower.image.src = `images/${flower.name.toLowerCase()}_night.png`
+        flower.image.src = `images/${flower.flower.name.toLowerCase()}_night.png`
     })
     flowerFormContainer.style.display = "none"
     graveForm.style.display = "none"
@@ -233,7 +233,7 @@ function handleCanvasClick(e) {
             console.log(grave.grave)
             chosenGrave = grave
             if(flowerCount > 0 && planting === true){
-                handleNewFlower({x: mouseX, y: mouseY}, chosenGrave.grave.id, flowerType)
+                handleNewFlower({x: mouseX, y: mouseY, width: 64, height: 64}, chosenGrave.grave.id, flowerType)
             }
         }
     })
@@ -281,7 +281,7 @@ function handleNewFlower(coords, graveid, name) {
     console.log({"name": name, "grave_id": graveid})
     adapter.postFlower({"name": name, "grave_id": graveid})
     .then(data => {
-        chosenGrave.renderFlower(coords, name, data)})
+        chosenGrave.renderFlower(coords, data)})
     flowerCount --
     placeFlower.innerHTML = `
         Flowers x${flowerCount}
@@ -296,22 +296,3 @@ const flowerSelector = document.querySelector("#flowerlist")
 flowerSelector.addEventListener('change', (e) => {
     flowerType = e.target.value
 })
-
-//tester objects
-const newGraveObj = {
-    name: "John Doe",
-    epitaph: "Died as he lived, unknown",
-    lifespan: "1805-1892",
-    open: false //always false for new grave. new graves are made by clicking on an empty plot while cursor is shovel.
-}
-const newCorpseObj = {
-    name: "John Doe",
-    speed: 1,
-    flowers_needed: 2,
-    grave_id: 1
-}
-const newFlowerObj = {
-    name: "Tulip",
-    worth: 2, //name and worth connected, selected from form 
-    grave_id: 1 //grave is chosen by clicking on the grave while cursor is flower
-}

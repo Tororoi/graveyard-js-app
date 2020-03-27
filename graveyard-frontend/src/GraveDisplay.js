@@ -22,9 +22,17 @@ class GraveDisplay {
         this.image.src = closedGraveDay
       }
 
-      renderFlower(coords, name){
-          var flower = new FlowerDisplay(this.context, name)
-          flower.draw(coords)
+      renderFlower(coords, flowerObj) {
+        const newCanvas = document.createElement("canvas")
+        newCanvas.width=1024
+        newCanvas.height=736
+        newCanvas.style.position = "absolute"
+        // newCanvas.style.zIndex = z
+        activeLayers.appendChild(newCanvas)
+        const ctx = newCanvas.getContext("2d")
+        ctx.imageSmoothingEnabled = false;
+          var flower = new FlowerDisplay(ctx, coords, flowerObj)
+          flower.draw()
       }
     renderCorpse(corpseObj,coordinates,z) {
         const newCanvas = document.createElement("canvas")
