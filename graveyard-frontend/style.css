@@ -94,7 +94,7 @@ body[data-light-mode="night"] {
 }
     
 input:checked + .slider {
-  background-color: #00d37b;
+  background-color: #171717;
 }
     
     
@@ -102,7 +102,7 @@ input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
-  background-color: rgb(216, 216, 216);
+  background-color: #00d37b;
 }
 
 #gameCanvas {
