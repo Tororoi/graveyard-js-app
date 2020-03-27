@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_175434) do
 
   create_table "corpses", force: :cascade do |t|
     t.string "name"
-    t.integer "speed"
+    t.float "speed"
     t.integer "flowers_needed"
     t.bigint "grave_id", null: false
     t.datetime "created_at", precision: 6, null: false
