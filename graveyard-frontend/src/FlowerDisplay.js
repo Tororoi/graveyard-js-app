@@ -30,8 +30,8 @@ class FlowerDisplay {
         // const flower = this.flower <-- use if worth gets defined
         const ctx = this.context
         const image = this.image
-        const x = this.coords.x
-        const y = this.coords.y
+        const x = this.coords.x - 32
+        const y = this.coords.y - 64
         const width = this.coords.width
         const height = this.coords.height
         let dead = this.dead

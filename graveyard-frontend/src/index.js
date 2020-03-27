@@ -29,6 +29,7 @@ layers.addEventListener('mousemove', mouseMoveListener);
 function mouseMoveListener(e) {
     mouseX=e.offsetX;
     mouseY=e.offsetY;
+    layers.title = ""
     GraveDisplay.all.forEach(grave => {
         if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
             && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
