@@ -21,9 +21,8 @@ const graveCanvas = document.querySelector("#graveCanvas")
 const context = canvas.getContext("2d")
 const graveContext = graveCanvas.getContext("2d")
 // const tooltipContext = tooltipCanvas.querySelector("2d")
-const form = document.querySelector("#grave-form")
+const gravestoneText = document.querySelector('#grave-text')
 let gravePreview
-let gravestoneText
 let chosenPlot
 let flowersText
 let mouseX;
@@ -119,7 +118,6 @@ function drawCanvas() {
 //---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
     gravePreview = document.getElementsByTagName('img')[0]
-    gravestoneText = gravePreview.nextSibling
     adapter.fetchFlowers()
         .then(flowers =>{
             allFlowers = flowers
