@@ -3,6 +3,8 @@ const adapter = new APIAdapter("http:localhost:3000")
 
 //--------------DOM Elements---------------//
 const app = document.querySelector("body")
+const layers = document.querySelector("#canvas-layers")
+const activeLayers = document.querySelector("#active-canvas")
 const nightSwitch = document.querySelector("#toggle-dark-mode")
 const h1 = document.querySelector("h1")
 const aside = document.querySelector("aside")
@@ -11,9 +13,29 @@ const flowerCount = aside.children[4]//not right
 const digGrave = document.querySelector("#post-grave")
 const graveForm = document.querySelector("#grave-form")
 const canvas = document.querySelector("#gameCanvas")
+const graveCanvas = document.querySelector("#graveCanvas")
 const context = canvas.getContext("2d")
+const graveContext = graveCanvas.getContext("2d")
 const form = document.querySelector("#grave-form")
 let chosenPlot
+let mouseX;
+let mouseY;
+let mousePresent;
+//----------Canvas Listeners----------//
+layers.addEventListener('mousemove', mouseMoveListener);
+function mouseMoveListener(e) {
+mouseX=e.offsetX;
+mouseY=e.offsetY;
+}
+
+layers.addEventListener('mouseover', mouseOverListener)
+    function mouseOverListener(e) {
+    mousePresent=true;
+}
+layers.addEventListener('mouseout', mouseOutListener)
+function mouseOutListener(e) {
+    mousePresent=false;
+}
 
 const controlledGraveForm = new ControlledForm(graveForm)
 
@@ -46,6 +68,13 @@ controlledGraveForm.onSubmit = () => {
     form.style.display = "none";
 }
 
+//Draw Game
+function drawCanvas() {
+    //Draw Graves
+    //Draw Flowers
+    //Draw Skeletons
+}
+
 
 //---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -65,7 +94,10 @@ function handleNightSwitchClick(e) {
     nightmode = "day";
     app.setAttribute("data-light-mode", "day");
     GraveDisplay.all.forEach(grave => {
-        grave.image.src = closedGraveDay //currently no equivalent of webkit transition
+        grave.image.src = closedGraveDay
+    })
+    Skeleton.all.forEach(skelly => {
+        skelly.context.canvas.remove()
     })
 } else {
     nightmode = "night";
@@ -75,7 +107,7 @@ function handleNightSwitchClick(e) {
         //Render skeletons
         const skellies = grave.grave.corpses
         skellies.forEach(skelly => {
-            grave.renderCorpse(skelly)
+            grave.renderCorpse(skelly,grave.coords,1)
         })
     })
 }
@@ -141,7 +173,7 @@ function shuffleArray(array) {
 //--Canvas Helpers--//
 
 //--Event Listeners--//
-canvas.addEventListener("click", handleCanvasClick)
+layers.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
     let mouseX = e.offsetX
@@ -149,6 +181,8 @@ function handleCanvasClick(e) {
     console.log(`${mouseX},${mouseY}`)
     if (nightmode === "night") {
         console.log("It's night time!")
+        // Skeleton.all.forEach(skelly => {
+        //     skelly.getBehind() })
     } else {
     Plot.all.forEach(plot => {
         if (!plot.taken && mouseY > plot.coords.y && mouseY < plot.coords.y + plot.coords.height 

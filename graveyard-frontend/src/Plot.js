@@ -23,7 +23,7 @@ class Plot {
     }
 
     renderGrave(graveObj) { 
-      const grave = new GraveDisplay(this.context, this.coords, graveObj)
+      const grave = new GraveDisplay(graveContext, this.coords, graveObj)
       this.taken = true;
       grave.draw()
     }
