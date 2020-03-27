@@ -22,7 +22,10 @@ const context = canvas.getContext("2d")
 const graveContext = graveCanvas.getContext("2d")
 // const tooltipContext = tooltipCanvas.querySelector("2d")
 const form = document.querySelector("#grave-form")
+let gravePreview
+let gravestoneText
 let chosenPlot
+let flowersText
 let mouseX;
 let mouseY;
 let mousePresent;
@@ -31,30 +34,30 @@ layers.addEventListener('mousemove', mouseMoveListener);
 function mouseMoveListener(e) {
     mouseX=e.offsetX;
     mouseY=e.offsetY;
-    GraveDisplay.all.forEach(grave => {
-        if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
-            && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
-            let flowersText
-            let fn = grave.grave.corpses[0].flowers_needed
-            switch (true){
-                case (fn === 0):
-                    flowersText = `${grave.grave.name} doesn't want any flowers.`
-                break
-                case (fn === 1):
-                    flowersText = `${grave.grave.name} wants one flower.`
-                break
-                case (fn > 1):
-                    flowersText = `${grave.grave.name} wants ${fn} flowers.`
-                break
-            }
-            console.log(grave.grave.corpses[0].flowers_needed)
-            layers.title = `"${grave.grave.name}
-${grave.grave.lifespan}
-${grave.grave.epitaph}"
+//     GraveDisplay.all.forEach(grave => {
+//         if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
+//             && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
+//             let flowersText
+//             let fn = grave.grave.corpses[0].flowers_needed
+//             switch (true){
+//                 case (fn === 0):
+//                     flowersText = `${grave.grave.name} doesn't want any flowers.`
+//                 break
+//                 case (fn === 1):
+//                     flowersText = `${grave.grave.name} wants one flower.`
+//                 break
+//                 case (fn > 1):
+//                     flowersText = `${grave.grave.name} wants ${fn} flowers.`
+//                 break
+//             }
+//             console.log(grave.grave.corpses[0].flowers_needed)
+//             layers.title = `"${grave.grave.name}
+// ${grave.grave.lifespan}
+// ${grave.grave.epitaph}"
 
-${flowersText}`
-        }
-    })
+// ${flowersText}`
+//         }
+//     })
 
 }
 
@@ -115,6 +118,8 @@ function drawCanvas() {
 
 //---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
+    gravePreview = document.getElementsByTagName('img')[0]
+    gravestoneText = gravePreview.nextSibling
     adapter.fetchFlowers()
         .then(flowers =>{
             allFlowers = flowers
@@ -173,6 +178,33 @@ function handleNightSwitchClick(e) {
     flowerFormContainer.style.display = "none"
     graveForm.style.display = "none"
 }
+}
+
+//---------Render Grave View--------//
+
+function displayGravePreview(grave){
+    gravePreview.style.visibility = `visible`
+            let fn = grave.grave.corpses[0].flowers_needed
+            switch (true){
+                case (fn === 0):
+                    flowersText = `${grave.grave.name} doesn't want any flowers.`
+                break
+                case (fn === 1):
+                    flowersText = `${grave.grave.name} wants one flower.`
+                break
+                case (fn > 1):
+                    flowersText = `${grave.grave.name} wants ${fn} flowers.`
+                break
+            }
+            console.log(grave.grave.corpses[0].flowers_needed)
+            gravestoneText.innerText = `${grave.grave.name}
+
+${grave.grave.lifespan}
+
+${grave.grave.epitaph}
+
+
+${flowersText}`
 }
 
 //----------Render Graves-----------//
@@ -259,6 +291,7 @@ function handleCanvasClick(e) {
         if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
             && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
             console.log(grave.grave)
+            displayGravePreview(grave)
             chosenGrave = grave
             if(flowerCount > 0 && planting === true){
                 handleNewFlower({x: mouseX, y: mouseY}, chosenGrave.grave.id, flowerType)

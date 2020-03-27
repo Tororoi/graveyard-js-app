@@ -11,3 +11,4 @@ const peonyDay = "images/peony_day.png"
 const peonyNight = "images/peony_night.png"
 const skeleton = "images/corpse_tester.png"
 const skelSheet = "images/skeleton_spritesheet.png"
+const gravestone = `images/gravestone.png`
