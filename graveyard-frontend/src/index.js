@@ -110,14 +110,20 @@ function handleNightSwitchClick(e) {
     app.setAttribute("data-light-mode", "day");
     GraveDisplay.all.forEach(grave => {
         grave.image.src = closedGraveDay
+        // console.log(grave.grave.flowers)
+        grave.grave.flowers.forEach(flower => {
+            adapter.deleteFlower(flower.id)
+        })
+        //how to remove flowers from grave object after 
     })
+    graveCanvas.width = 1
     Skeleton.all.forEach(skelly => {
         skelly.context.canvas.remove()
     })
     FlowerDisplay.all.forEach(flower => {
-        adapter.deleteFlower(flower.flower.id)
+        flower.image.src = `images/${flower.name.toLowerCase()}_day.png`
     })
-    graveCanvas.context.clearRect(0, 0, graveCanvas.width, graveCanvas.height)
+    // canvas.remove()
 } else {
     nightmode = "night";
     app.setAttribute("data-light-mode", "night");
@@ -206,8 +212,6 @@ function shuffleArray(array) {
 layers.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
-    mouseX = e.offsetX
-    mouseY = e.offsetY
     console.log(`${mouseX},${mouseY}`)
     if (nightmode === "night") {
         console.log("It's night time!")
@@ -277,7 +281,6 @@ function handleNewFlower(coords, graveid, name) {
     console.log({"name": name, "grave_id": graveid})
     adapter.postFlower({"name": name, "grave_id": graveid})
     .then(data => {
-        debugger
         chosenGrave.renderFlower(coords, name, data)})
     flowerCount --
     placeFlower.innerHTML = `

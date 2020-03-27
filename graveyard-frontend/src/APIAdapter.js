@@ -107,7 +107,7 @@ class APIAdapter {
     }
     //Delete Flower
     deleteFlower(flowerId) {
-        fetch(baseUrl+`/flowers/${flowerId}`, {
+        fetch(this.baseUrl+`/flowers/${flowerId}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ class APIAdapter {
 
     //Get one Flower
     fetchFlower(flowerId) {
-        return fetch(baseUrl+`/flowers/${flowerId}`, {
+        return fetch(this.baseUrl+`/flowers/${flowerId}`, {
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json'

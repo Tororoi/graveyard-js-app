@@ -2,9 +2,9 @@ class GraveDisplay {
     //coords assigned by plot instance
     static all = []
 
-    constructor(context, coords, grave) {
+    constructor(gContext, coords, grave) {
         this.image = new Image()
-        this.context = context
+        this.context = gContext
         this.image.src = closedGraveDay
         this.coords = coords
         this.grave = grave
@@ -38,5 +38,8 @@ class GraveDisplay {
         const corpse = new Skeleton(ctx, coordinates, corpseObj)
         corpse.draw()
     }
+    // clear() {
+    //     context.clearRect(0, 0, graveCanvas.width, graveCanvas.height)
+    // }
 
     }
