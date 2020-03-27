@@ -118,7 +118,7 @@ function drawCanvas() {
 //---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
     gravePreview = document.getElementsByTagName('img')[0]
-    gravestoneText = gravePreview.nextSibling
+    gravestoneText = gravePreview.nextSibling.nextSibling
     adapter.fetchFlowers()
         .then(flowers =>{
             allFlowers = flowers
