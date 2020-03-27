@@ -13,14 +13,11 @@ class GraveDisplay {
     }
 
     draw() {
-        const canvas = document.querySelector("#gameCanvas")
-        const context = canvas.getContext("2d")
         const image = this.image
         const x = this.coords.x
         const y = this.coords.y
         this.image.onload = function() {
             context.drawImage(image, x - 16, y - 50)
-            console.log(this.coords)
         }
         this.image.src = closedGraveDay
       }
@@ -29,8 +26,16 @@ class GraveDisplay {
           var flower = new FlowerDisplay(this.context, name)
           flower.draw(coords)
       }
-    renderCorpse(corpseObj) {
-        const corpse = new Skeleton(this.context, this.coords, corpseObj)
+    renderCorpse(corpseObj,coordinates,z) {
+        const newCanvas = document.createElement("canvas")
+        newCanvas.width=1024
+        newCanvas.height=736
+        newCanvas.style.position = "absolute"
+        newCanvas.style.zIndex = z
+        activeLayers.appendChild(newCanvas)
+        const ctx = newCanvas.getContext("2d")
+        ctx.imageSmoothingEnabled = false;
+        const corpse = new Skeleton(ctx, coordinates, corpseObj)
         corpse.draw()
     }
 

@@ -3,6 +3,8 @@ const adapter = new APIAdapter("http:localhost:3000")
 
 //--------------DOM Elements---------------//
 const app = document.querySelector("body")
+const layers = document.querySelector("#canvas-layers")
+const activeLayers = document.querySelector("#active-canvas")
 const nightSwitch = document.querySelector("#toggle-dark-mode")
 const h1 = document.querySelector("h1")
 const aside = document.querySelector("aside")
@@ -14,15 +16,36 @@ const graveForm = document.querySelector("#grave-form")
 const flowerForm = document.querySelector("#flower-form")
 const flowerFormContainer = document.querySelector("#flower-form-container")
 const canvas = document.querySelector("#gameCanvas")
+const graveCanvas = document.querySelector("#graveCanvas")
 const context = canvas.getContext("2d")
+const graveContext = graveCanvas.getContext("2d")
+const form = document.querySelector("#grave-form")
+let chosenPlot
+let mouseX;
+let mouseY;
+let mousePresent;
+//----------Canvas Listeners----------//
+layers.addEventListener('mousemove', mouseMoveListener);
+function mouseMoveListener(e) {
+mouseX=e.offsetX;
+mouseY=e.offsetY;
+}
+
+layers.addEventListener('mouseover', mouseOverListener)
+    function mouseOverListener(e) {
+    mousePresent=true;
+}
+layers.addEventListener('mouseout', mouseOutListener)
+function mouseOutListener(e) {
+    mousePresent=false;
+}
+
+const controlledGraveForm = new ControlledForm(graveForm)
 
 //------Canvas variable Declarations------//
 let flowerType = "Peony"
 let planting = false
-let chosenPlot
 let chosenGrave
-let mouseX
-let mouseY
 
 //---------Initialize Graveyard---------//
 let allFlowers
@@ -55,6 +78,15 @@ controlledGraveForm.onSubmit = () => {
     form.style.display = "none";
 }
 
+//Draw Game
+function drawCanvas() {
+    //Draw Graves
+    //Draw Flowers
+    //Draw Skeletons
+}
+
+
+//---------Initialize Graveyard---------//
 document.addEventListener('DOMContentLoaded', (event) => {
     adapter.fetchFlowers()
         .then(flowers =>{
@@ -77,8 +109,15 @@ function handleNightSwitchClick(e) {
     nightmode = "day";
     app.setAttribute("data-light-mode", "day");
     GraveDisplay.all.forEach(grave => {
-        grave.image.src = closedGraveDay //currently no equivalent of webkit transition
+        grave.image.src = closedGraveDay
     })
+    Skeleton.all.forEach(skelly => {
+        skelly.context.canvas.remove()
+    })
+    FlowerDisplay.all.forEach(flower => {
+        adapter.deleteFlower(flower.flower.id)
+    })
+    graveCanvas.context.clearRect(0, 0, graveCanvas.width, graveCanvas.height)
 } else {
     nightmode = "night";
     app.setAttribute("data-light-mode", "night");
@@ -87,8 +126,16 @@ function handleNightSwitchClick(e) {
         //Render skeletons
         const skellies = grave.grave.corpses
         skellies.forEach(skelly => {
-            grave.renderCorpse(skelly)
+            if (grave.grave.flowers.length >= skelly.flowers_needed) {
+                console.log(`let ${skelly.name} rest`)
+            } else {
+                grave.renderCorpse(skelly,grave.coords,1)
+            }
+            
         })
+    })
+    FlowerDisplay.all.forEach(flower => {
+        flower.image.src = `images/${flower.name.toLowerCase()}_night.png`
     })
     flowerFormContainer.style.display = "none"
     graveForm.style.display = "none"
@@ -156,7 +203,7 @@ function shuffleArray(array) {
 //--Canvas Helpers--//
 
 //--Event Listeners--//
-canvas.addEventListener("click", handleCanvasClick)
+layers.addEventListener("click", handleCanvasClick)
 //--Event Handlers--//
 function handleCanvasClick(e) {
     mouseX = e.offsetX
@@ -164,6 +211,8 @@ function handleCanvasClick(e) {
     console.log(`${mouseX},${mouseY}`)
     if (nightmode === "night") {
         console.log("It's night time!")
+        // Skeleton.all.forEach(skelly => {
+        //     skelly.getBehind() })
     } else {
     Plot.all.forEach(plot => {
         if (!plot.taken && mouseY > plot.coords.y && mouseY < plot.coords.y + plot.coords.height 
@@ -195,23 +244,23 @@ function handleNewGrave(e) {
     alert("Choose an empty plot")
     planting = false
 }
-const controlledGraveForm = new ControlledForm(graveForm)
+// const controlledGraveForm = new ControlledForm(graveForm)
 
-controlledGraveForm.onInput = () => {
-    console.log(controlledGraveForm.data)
-}
+// controlledGraveForm.onInput = () => {
+//     console.log(controlledGraveForm.data)
+// }
 
-controlledGraveForm.onSubmit = () => {
-    planting = false
-    const newGrave = controlledGraveForm.data
-    console.log(newGrave)
-    adapter.postGrave(newGrave)
-        .then(actualNewGrave => {
-            chosenPlot.renderGrave(actualNewGrave)
-    })
-    graveForm.reset()
-    graveForm.style.display = "none";
-}
+// controlledGraveForm.onSubmit = () => {
+//     planting = false
+//     const newGrave = controlledGraveForm.data
+//     console.log(newGrave)
+//     adapter.postGrave(newGrave)
+//         .then(actualNewGrave => {
+//             chosenPlot.renderGrave(actualNewGrave)
+//     })
+//     graveForm.reset()
+//     graveForm.style.display = "none";
+// }
 
 
 //--------Post New Flower-------//
@@ -227,7 +276,9 @@ placeFlower.addEventListener("click", e =>{
 function handleNewFlower(coords, graveid, name) {
     console.log({"name": name, "grave_id": graveid})
     adapter.postFlower({"name": name, "grave_id": graveid})
-    chosenGrave.renderFlower(coords, name)
+    .then(data => {
+        debugger
+        chosenGrave.renderFlower(coords, name, data)})
     flowerCount --
     placeFlower.innerHTML = `
         Flowers x${flowerCount}

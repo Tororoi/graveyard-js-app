@@ -105,10 +105,25 @@ input:checked + .slider:before {
   background-color: rgb(216, 216, 216);
 }
 
-#gameCanvas {
+#canvas-layers {
   padding: 0;
   display: block;
+  width: 1024px;
+  height: 736px;
+}
+
+#graveCanvas {
+  padding: 0;
+  position: absolute;
   margin: 0 auto;
+}
+
+#gameCanvas {
+  padding: 0;
+  position: absolute;
+  z-index: -100;
+  margin: 0 auto;
+  border:1px solid #000000;
   background-color: rgb(161, 208, 163);
   transition: .4s;
   -webkit-transition: .4s;

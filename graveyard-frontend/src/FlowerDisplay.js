@@ -1,10 +1,11 @@
 class FlowerDisplay {
     static all = []
 
-    constructor(context, name){
+    constructor(context, name, flower){
         this.image = new Image()
         this.context = context
         this.name = name
+        this.flower = flower
         switch (this.name){
             case "Tulip":
                 this.image.src = tulipDay
