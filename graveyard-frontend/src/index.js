@@ -90,7 +90,7 @@ controlledGraveForm.onSubmit = () => {
             chosenPlot.renderGrave(actualNewGrave)
             return actualNewGrave
         })
-        .then(attachCorpse) //currently doesn't render until refreshed. actualNewGrave needs to be told that it has a corpse
+        .then(attachCorpse)
     function attachCorpse(graveData) {
         const randValue = Math.random()
         const newCorpse = {
@@ -144,7 +144,7 @@ function handleNightSwitchClick(e) {
         grave.grave.flowers.forEach(flower => {
             adapter.deleteFlower(flower.id)
         })
-        //how to remove flowers from grave object after 
+        //how to remove flowers from grave object after *************************************************************************************************
     })
     Skeleton.all.forEach(skelly => {
         skelly.context.canvas.remove()
