@@ -17,8 +17,10 @@ const flowerForm = document.querySelector("#flower-form")
 const flowerFormContainer = document.querySelector("#flower-form-container")
 const canvas = document.querySelector("#gameCanvas")
 const graveCanvas = document.querySelector("#graveCanvas")
+// const tooltipCanvas = document.querySelector('#tooltipCanvas')
 const context = canvas.getContext("2d")
 const graveContext = graveCanvas.getContext("2d")
+// const tooltipContext = tooltipCanvas.querySelector("2d")
 const form = document.querySelector("#grave-form")
 let chosenPlot
 let mouseX;
@@ -27,8 +29,33 @@ let mousePresent;
 //----------Canvas Listeners----------//
 layers.addEventListener('mousemove', mouseMoveListener);
 function mouseMoveListener(e) {
-mouseX=e.offsetX;
-mouseY=e.offsetY;
+    mouseX=e.offsetX;
+    mouseY=e.offsetY;
+    GraveDisplay.all.forEach(grave => {
+        if (mouseY > grave.coords.y && mouseY < grave.coords.y + grave.coords.height 
+            && mouseX > grave.coords.x && mouseX < grave.coords.x + grave.coords.width) {
+            let flowersText
+            let fn = grave.grave.corpses[0].flowers_needed
+            switch (true){
+                case (fn === 0):
+                    flowersText = `${grave.grave.name} doesn't want any flowers.`
+                break
+                case (fn === 1):
+                    flowersText = `${grave.grave.name} wants one flower.`
+                break
+                case (fn > 1):
+                    flowersText = `${grave.grave.name} wants ${fn} flowers.`
+                break
+            }
+            console.log(grave.grave.corpses[0].flowers_needed)
+            layers.title = `"${grave.grave.name}
+${grave.grave.lifespan}
+${grave.grave.epitaph}"
+
+${flowersText}`
+        }
+    })
+
 }
 
 layers.addEventListener('mouseover', mouseOverListener)
@@ -210,6 +237,7 @@ function shuffleArray(array) {
 
 //--Event Listeners--//
 layers.addEventListener("click", handleCanvasClick)
+
 //--Event Handlers--//
 function handleCanvasClick(e) {
     console.log(`${mouseX},${mouseY}`)
